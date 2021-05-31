@@ -21,46 +21,58 @@ import java.util.logging.Logger;
  * @author soab
  */
 public class Nodemac {
-    
-    private String host;
 
-      
-    public void Connect2Server(String message, String host, DatagramSocket socket) {
+    private String host;
+    private ResponderClass Responder;
+
+
+    public void Connect2Server(String registerNodeMessage, String host, DatagramSocket socket) {
         try {
-            
+            this.host = host;
             InetAddress addr = InetAddress.getByName(host);
             //String message = "REGISTER,node2,102.772.1.20,8000";       
-            DatagramPacket packet1 = new DatagramPacket(message.getBytes(), message.getBytes().length, addr, 5000);
+            DatagramPacket packet1 = new DatagramPacket(registerNodeMessage.getBytes(), registerNodeMessage.getBytes().length, addr, 5000);
             //DatagramPacket packet = new DatagramPacket(message.getBytes(), message.getBytes().length, addr, 5000);
             //DatagramSocket socket = new DatagramSocket(4000);
             socket.send(packet1);
-           listening(socket);
-           socket.close();
+            listening(socket);
+            socket.close();
         } catch (Exception error) {
 
         }
     }
-    
+
+    public void sendAnswerToServer() {
+
+    }
+
     public void listening(DatagramSocket socket) {
 
         //DatagramSocket server = new DatagramSocket(4160);
         boolean x = true;
-        while (x = true){
+        while (x = true) {
             byte[] buffer = new byte[1024];
-                DatagramPacket p = new DatagramPacket(buffer, buffer.length);
-        try {
-            socket.receive(p);
-        } catch (IOException ex) {
-            Logger.getLogger(Nodemac.class.getName()).log(Level.SEVERE, null, ex);
+            DatagramPacket p = new DatagramPacket(buffer, buffer.length);
+
+            String fullMessage = new String(p.getData());
+
+            this.Responder = new ResponderClass(fullMessage, this.host, socket.getPort());
+
+            Thread r1 = new Thread(this.Responder);
+            r1.start();
+
+            try {
+                socket.receive(p);
+
+            } catch (IOException ex) {
+                Logger.getLogger(Nodemac.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            String response = new String(p.getData());
+            System.out.println("Got message: " + response);
         }
-                String response = new String(p.getData());
-                System.out.println("Got message: " + response);
-        }
-        
 
     }
-    
-      
+
     public static void main(String[] args) throws IOException {
         String host = "localhost";
         String message = args[0];
@@ -72,13 +84,11 @@ public class Nodemac {
             DatagramSocket socket = new DatagramSocket(nodeportArg);
             Nodemac sys = new Nodemac();
             sys.Connect2Server(message, host, socket);
-                    
 
         } catch (SocketException ex) {
-           // Logger.getLogger(Nodemac.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(Nodemac.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("Port number: " + argElements[3] + " is in use");
         }
-        
 
     }
 

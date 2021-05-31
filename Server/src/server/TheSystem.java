@@ -30,7 +30,9 @@ public class TheSystem {
         NodeManager manager = new NodeManager();
         JobSender sending = new JobSender(manager.getConnectedData(),RandomNum, sendermessage);
         
-         
+        
+        
+
         
         
         try {

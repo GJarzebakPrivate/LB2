@@ -69,12 +69,14 @@ public class JobSender implements Runnable {
             System.out.println("Current capacity of the node is  : " + connectedData.get(highestCapacityNodeIndex).getCapacityInSeconds());
             //String s = "Current capacity of the node is  : " + String.valueOf(connectedData.get(highestCapacityIndex).getCapacityInSeconds());
             String s = "Current capacity of the node is  : ";
+            
+            message = this.messageBeingSent + "," + String.valueOf(this.messageCapacity);
                     
 
             DatagramPacket packet11 = new DatagramPacket(message.getBytes(), message.getBytes().length, addr, port);
-            DatagramPacket packet22 = new DatagramPacket(s.getBytes(), s.getBytes().length, addr, port);
+            //DatagramPacket packet22 = new DatagramPacket(s.getBytes(), s.getBytes().length, addr, port);
             client.send(packet11);
-            client.send(packet22);
+            //client.send(packet22);
             client.close();
               
               
