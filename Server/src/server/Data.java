@@ -12,36 +12,48 @@ package server;
 public class Data {
     
     private String nodeName;
-    private String nodeIP;
-    private int nodePort; 
-    private boolean nodeAvailability;
-    private int nodeCapactiy; 
+    private String nodeIpNumber;
+    private int nodePortNumber; 
+    private boolean isNodeAvailable;
+    private int nodeCapacityInSeconds; 
     
     public Data(String name, String ip, int port, boolean availabile, int Capacity){
         nodeName = name;
-        nodeIP = ip;
-        nodePort = port;
-        nodeAvailability = availabile;
-        nodeCapactiy = Capacity;
+        nodeIpNumber = ip;
+        nodePortNumber = port;
+        isNodeAvailable = availabile;
+        nodeCapacityInSeconds = Capacity;
     }
     
-    public int getCapactiy(){      
-        return nodeCapactiy;
+    public int getCapacityInSeconds(){      
+        return nodeCapacityInSeconds;
     }
     
-    public void SetCapacity(int nC){
+    public void setCapacityInSeconds(int nC){
        //
-       if(nodeCapactiy > 0) {
+       if(nodeCapacityInSeconds > 0) {
            
-           this.nodeCapactiy = nC;
+           this.nodeCapacityInSeconds = nC;
        }else {
-           nodeCapactiy = 0 ;
+           nodeCapacityInSeconds = 0 ;
        }
        
     }
     
-    public void ChangeCapacity(int addNum) {
-        this.SetCapacity(this.nodeCapactiy + addNum);
+    public void increaseNodeCapacity(int addNum) {
+        this.setCapacityInSeconds(this.nodeCapacityInSeconds + addNum);
+    }
+    
+    public void decreaseNodeCapacity(int addNum) {
+        
+        if(this.getCapacityInSeconds() - addNum >= 0)
+        {
+            this.setCapacityInSeconds(this.nodeCapacityInSeconds - addNum);
+        }else{
+                this.setCapacityInSeconds(0);
+                }
+        
+        
     }
     
 
@@ -50,18 +62,18 @@ public class Data {
     }
     
     public String getNodeIP(){
-        return nodeIP;
+        return nodeIpNumber;
     }
     
     public int getPort(){
-        return nodePort;
+        return nodePortNumber;
     }
     
     public void display(){
-        System.out.println("Machine: <" + nodeName + "> <" + nodeIP + "> <" + nodePort + ">");
+        System.out.println("Machine: <" + nodeName + "> <" + nodeIpNumber + "> <" + nodePortNumber + ">");
     }
     
     public boolean getavailability(){
-        return nodeAvailability;
+        return isNodeAvailable;
     }
 }

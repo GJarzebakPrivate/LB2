@@ -28,7 +28,7 @@ public class TheSystem {
         
         DatagramSocket socket = null;
         NodeManager manager = new NodeManager();
-        Serversender sending = new Serversender(manager.getConnectedData(),RandomNum, sendermessage);
+        JobSender sending = new JobSender(manager.getConnectedData(),RandomNum, sendermessage);
         
          
         
