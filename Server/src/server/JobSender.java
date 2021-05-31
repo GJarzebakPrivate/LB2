@@ -19,7 +19,6 @@ public class JobSender implements Runnable {
     
     private LinkedList<Data> connectedData;
     
-    private int capacityOfTheMessage; 
     private String messageBeingSent;
     private int messageCapacity = 0;
     private int port = 0;
@@ -27,30 +26,13 @@ public class JobSender implements Runnable {
     
     public JobSender(LinkedList<Data> listOfNodes, int RandomNum, String sendermessage) {
         connectedData = listOfNodes;
-        capacityOfTheMessage = RandomNum;
+        messageCapacity = RandomNum;
         messageBeingSent = sendermessage;
      
     }
     
     
-    public int getHighestCapacityFromNodes() {
-        
-        int port = 0;
-        int highestCapacityNodeCapacity =0;
-        int highestCapacityNodeIndex = 0;
-        
-        for (Data connectedDataNode : connectedData) {
 
-            if (connectedDataNode.getCapacityInSeconds() > highestCapacityNodeCapacity) {
-                highestCapacityNodeCapacity = connectedDataNode.getCapacityInSeconds();
-                highestCapacityNodeIndex = connectedData.indexOf(connectedDataNode);
-               // connectedData.get(max).SetCapacity(50);
-            }
-
-        }
-        return port;
-
-    }
     
     public void sendMessage() {
 
